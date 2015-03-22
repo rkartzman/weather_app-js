@@ -31,7 +31,5 @@ require([
 ], function(Backbone, App){
 	'use strict';
 	App.initialize();
-	App.displayTime();
-	console.log(App)
 
 });
