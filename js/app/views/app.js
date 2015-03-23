@@ -2,48 +2,63 @@ define([
 	'jquery',
 	'underscore', 
 	'backbone', 
-	'app/views/counter'
-], function ($, _, Backbone, CounterView){
+	'app/views/dash', 
+	'app/views/about'
+], function ($, _, Backbone, DashView, AboutView){
 	'use strict';
 
 	var AppView = Backbone.View.extend({
 		id: 'app-view', 
 
-		html: [
-			'<div class="navbar">', 
-				'<a class="navbar-brand" href="#">Weather Watcher</a>', 
-				'<ul class="nav navbar-nav">', 
-					'<li id="nav-dash"><a href="#">Dashboard</a></li>', 
-					'<li id="nav-about"><a href="#">About</a></li>', 
-				'</ul>', 
-			'</div>', 
+	html: [
+			'<div class="navbar">',
+				'<a class="navbar-brand" href="#">Weather Watcher</a>',
+				'<ul class="nav navbar-nav">',
+					'<li id="nav-dash"><a href="#dash">Dashboard</a></li>',
+					'<li id="nav-about"><a href="#about">About</a></li>',
+				'</ul>',
+			'</div>',
 			'<div id="content"></div>'
-		].join(''), 
+		].join(''),
 
-		
+		events: {
+			// 'click #nav-dash': 'onNavDash', 
+			// 'click #nav-about': 'onNavAbout'
+		}, 
 		// Way to refer to the children of the main view
 		views: {}, 
+		// instantiate new views here 
 		initialize: function() {
-			this.views['counter'] = new CounterView({
-				id: 'counter-widget', 
-				className: 'counter-widget'
+			this.views['about'] = new AboutView({
+				id: 'page-about', 
+				className: 'page-view'
+			});
+
+			this.views['dash'] = new DashView({
+				id: 'page-dash', 
+				className: 'page-view'
 			});
 
 			this.$el.append(this.html);
-		}, 
-		events: {
-			'click #nav-dash': 'onNavDash', 
-			'click #nav-about': 'onNavAbout'
+
+			this.$('#content').append(this.views['about'].render().el);
+			this.$('#content').append(this.views['dash'].render().el);
 		}, 
 
-		render: function(){
-			this.$('#content').append(this.views['counter'].render().el);
-			return this;
-		},
-
-		onNavDash: function(e) {
-			alert('Dash button clicked');
+		setPage: function(page) {
+			this.$('.page-view').hide();
+			this.$('#page-'+page).show();
 		}
+		
+
+		// render: function(){
+		// 	this.$('#content').append(this.views['counter'].render().el);
+		// 	return this;
+		// },
+
+		// onNavDash: function(e) {
+		// 	alert('Dash button clicked');
+		// }
 	});
 	return AppView;
 });
