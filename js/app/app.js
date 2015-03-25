@@ -2,8 +2,6 @@ define([
 	'app/views/app',
 	'app/routers/router' , 
 	'app/models/app', 
-	'app/collections/days', 
-	'app/collections/places'
 
 ], function (AppView, Router, AppModel, DaysCollection, PlacesCollection) {
 	'use strict';
@@ -17,13 +15,13 @@ define([
 		var router = new Router(appView);
 		Backbone.history.start();
 
-		var placesCollection = new PlacesCollection([]);
-		placesCollection.fetch();
+		// var placesCollection = new PlacesCollection([]);
+		// placesCollection.fetch();
 
-		window.debug = {
-			settings: appModel, 
-			places: placesCollection
-		}
+		// window.debug = {
+		// 	settings: appModel, 
+		// 	places: placesCollection
+		// }
 
 		// var daysCollection = new DaysCollection([],{
 		// 	url: 'http://api.wunderground.com/api/ed615089e274c957/forecast/q/IT/Magenta.json'
