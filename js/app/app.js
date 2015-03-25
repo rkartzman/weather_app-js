@@ -1,42 +1,42 @@
 define([
 	'app/views/app',
-	'app/routers/router' 
+	'app/routers/router' , 
+	'app/models/app', 
+	'app/collections/days'
 
-
-], function (AppView, Router) {
+], function (AppView, Router, AppModel, DaysCollection) {
 	'use strict';
 
 	var initialize = function() {
-			var appView = new AppView(); 
-			$('body').append(appView.render().el);
-			// $('body').append('<div id="'+id+'"></div>')
+		var appModel = new AppModel();
+
+		var appView = new AppView({model: appModel}); 
+		$('body').append(appView.render().el);
+		
 		var router = new Router(appView);
 		Backbone.history.start();
+
+		var daysCollection = new DaysCollection([],{
+			url: 'http://api.wunderground.com/api/ed615089e274c957/forecast/q/IT/Magenta.json'
+			
+		});
+
+		daysCollection.fetch({
+			success: function(collection, response, options){
+				console.log(collection, response);
+			}, 
+			error: function (collection, response, options){
+				console.log('error');
+			}
+		});
+
 	};
 
-	// var getTimeString = function(){
-	// 	var date = new Date;
-	// 	return [date.getHours(), ':', date.getMinutes()].join('')
 
-	// };
-
-	// var displayTime = function (){
-	// 	var html = [
-	// 		'<div class="alert">', 
-	// 		'<button type="button" class="close" data-dismiss="alert">&times;</button>', 
-	// 		'<h1>The Time Is: </h1>', 
-	// 		'<h1>'+getTimeString()+'</h1>',
-	// 		'</div>'
-
-	// 	].join('');
-	// 	$('#'+ id).html(html);
-
-	// };
 	
 	return {
 		initialize: initialize
-		// displayTime: displayTime,
-		// getId: getId
+		
 
 	}
 });
