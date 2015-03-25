@@ -2,9 +2,10 @@ define([
 	'app/views/app',
 	'app/routers/router' , 
 	'app/models/app', 
-	'app/collections/days'
+	'app/collections/days', 
+	'app/collections/places'
 
-], function (AppView, Router, AppModel, DaysCollection) {
+], function (AppView, Router, AppModel, DaysCollection, PlacesCollection) {
 	'use strict';
 
 	var initialize = function() {
@@ -16,19 +17,27 @@ define([
 		var router = new Router(appView);
 		Backbone.history.start();
 
-		var daysCollection = new DaysCollection([],{
-			url: 'http://api.wunderground.com/api/ed615089e274c957/forecast/q/IT/Magenta.json'
-			
-		});
+		var placesCollection = new PlacesCollection([]);
+		placesCollection.fetch();
 
-		daysCollection.fetch({
-			success: function(collection, response, options){
-				console.log(collection, response);
-			}, 
-			error: function (collection, response, options){
-				console.log('error');
-			}
-		});
+		window.debug = {
+			settings: appModel, 
+			places: placesCollection
+		}
+
+		// var daysCollection = new DaysCollection([],{
+		// 	url: 'http://api.wunderground.com/api/ed615089e274c957/forecast/q/IT/Magenta.json'
+			
+		// });
+
+		// daysCollection.fetch({
+		// 	success: function(collection, response, options){
+		// 		console.log(collection, response);
+		// 	}, 
+		// 	error: function (collection, response, options){
+		// 		console.log('error');
+		// 	}
+		// });
 
 	};
 
